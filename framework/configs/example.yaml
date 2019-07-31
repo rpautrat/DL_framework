@@ -1,0 +1,13 @@
+data:
+    name: 'mnist'
+    data_path: '~/Documents/datasets'
+    batch_size: 50
+    test_batch_size: 50
+    validation_split: 0.1
+    seed: 0
+model:
+    name: 'simple_classifier'
+    learning_rate: 0.0001
+n_iter: 10000
+validation_interval: 500
+save_interval: 500
