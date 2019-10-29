@@ -111,7 +111,11 @@ class BaseModel(metaclass=ABCMeta):
             self, 'required_config_keys', [])
         for r in required:
             assert r in self._config, 'Required configuration entry: \'{}\''.format(r)
-        self._net = self._model(config).to(device)
+        self._net = self._model(config)
+        if torch.cuda.device_count() > 1:
+            logging.info('Using {} GPU(s).'.format(torch.cuda.device_count()))
+            self._net = torch.nn.DataParallel(self._net)
+        self._net = self._net.to(device)
         self._solver = optim.Adam(self._net.parameters(),
                                   lr=self._config['learning_rate'])
         self._it = 0
